@@ -54,6 +54,11 @@ public class VendingMachineTest {
     }
 
     @Test
+    public void testHasEnoughChange() {
+        assertThat(vendingMachine.hasEnoughChange(325), is(true));
+    }
+
+    @Test
     public void testInsertCoin() {
         vendingMachine.insertCoin(Coin.LIRA1);
         assertThat(vendingMachine.getCurrentBalance(), is(equalTo(Integer.valueOf(100))));

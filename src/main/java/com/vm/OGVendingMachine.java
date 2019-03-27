@@ -44,12 +44,17 @@ public class OGVendingMachine implements VendingMachine {
         throw new ItemNotFoundException();
     }
 
-    private boolean hasEnoughChange(int changeTotal) {
+    public boolean hasEnoughChange(int changeTotal) {
 
+        Map<Coin, Integer> coinInventoryBefore = new HashMap<>();
         try {
+            coinInventory.forEach(coinInventoryBefore::putIfAbsent);
             getChange(changeTotal);
         } catch (NotEnoughChangeException ex) {
             return false;
+        } finally {
+            coinInventory.clear();
+            coinInventoryBefore.forEach(coinInventory::putIfAbsent);
         }
 
         return true;
