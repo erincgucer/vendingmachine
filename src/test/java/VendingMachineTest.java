@@ -2,6 +2,7 @@ import com.vm.OGVendingMachine;
 import com.vm.domain.Coin;
 import com.vm.domain.Item;
 import com.vm.exception.NotEnoughChangeException;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -20,9 +21,13 @@ public class VendingMachineTest {
         vendingMachine = new OGVendingMachine();
     }
 
+    @Before
+    public void initialize() {
+        vendingMachine.initialize();
+    }
+
     @Test
     public void testInitialize(){
-        vendingMachine.initialize();
         assertThat(vendingMachine.getCoinInventory().keySet(), hasSize(3));
         assertThat(vendingMachine.getItemInventory().keySet(), hasSize(4));
         for (Coin c : Coin.values()) {
@@ -35,19 +40,16 @@ public class VendingMachineTest {
 
     @Test(expected = NotEnoughChangeException.class)
     public void testGetChangeNotAppropriateCoinsShouldThrowException() {
-        vendingMachine.initialize();
         vendingMachine.getChange(145);
     }
 
     @Test(expected = NotEnoughChangeException.class)
     public void testGetChangeOutOfCoinsShouldThrowException() {
-        vendingMachine.initialize();
         vendingMachine.getChange(375);
     }
 
     @Test
     public void testGetChangeShouldNotThrowException() {
-        vendingMachine.initialize();
         vendingMachine.getChange(325);
     }
 
